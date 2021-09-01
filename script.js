@@ -107,3 +107,26 @@ let employees = [{
     },
 
 ];
+
+$(document).ready(function() {
+    $("#organisation").append('<option value="noSelect">---Выберите организацию---</option>');
+    organisations.forEach(element => {
+        $("#organisation").append('<option value="' + element.name + '">' + element.name + '</option>');
+    });
+    employees.forEach(element => {
+        $("#employee").append('<option value="' + element.fullName + '">' + element.fullName + '</option>');
+    });
+    $("#employee").attr('disabled', 'disabled');
+    $("#organisation").change(function(e) {
+        if ($("#organisation").val() == "noSelect") {
+            e.preventDefault();
+            $("#employee").attr('disabled', 'disabled');
+        } else {
+            e.preventDefault();
+            $("#employee").removeAttr('disabled');
+        }
+    });
+    positions.forEach(element => {
+        $("#form").append('<input type="checkbox" name="' + element.position + '"><label for="' + element.position + '">' + element.position + '</label>');
+    });
+});
