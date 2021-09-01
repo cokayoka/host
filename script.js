@@ -109,24 +109,59 @@ let employees = [{
 ];
 
 $(document).ready(function() {
+    //Отключение списка сотрудников при загрузке
+    $("#employee").attr('disabled', 'disabled');
+
+    //Отрисовка списка организаций
     $("#organisation").append('<option value="noSelect">---Выберите организацию---</option>');
     organisations.forEach(element => {
         $("#organisation").append('<option value="' + element.name + '">' + element.name + '</option>');
     });
-    employees.forEach(element => {
-        $("#employee").append('<option value="' + element.fullName + '">' + element.fullName + '</option>');
-    });
-    $("#employee").attr('disabled', 'disabled');
+
+    //Включение и отключение доступа к списку сотрудников
     $("#organisation").change(function(e) {
+        clearEmpList();
         if ($("#organisation").val() == "noSelect") {
             e.preventDefault();
             $("#employee").attr('disabled', 'disabled');
+            drawEmpList();
         } else {
             e.preventDefault();
             $("#employee").removeAttr('disabled');
+            drawEmpList();
         }
     });
+
+
+    //Отрисовка списка сотрудников
+    function drawEmpList() {
+        let organisationId = searchOrgId($("#organisation").val());
+        employees.forEach(element => {
+            if (organisationId == element.organisationId) {
+                $("#employee").append('<option value="' + element.fullName + '">' + element.fullName + '</option>');
+            }
+
+        });
+    }
+
+    //Отрисовка списка должностей
     positions.forEach(element => {
-        $("#form").append('<input type="checkbox" name="' + element.position + '"><label for="' + element.position + '">' + element.position + '</label>');
+        $("#employee").after('<br><input type="checkbox" name="' + element.position + '"><label for="' + element.position + '">' + element.position + '</label>');
     });
 });
+
+//Поси id организации по ее имени выбранного в списке
+function searchOrgId(name) {
+    let orgId;
+    organisations.forEach(element => {
+        if (element.name == name) {
+            orgId = element.id;
+        }
+    });
+    return orgId;
+}
+
+//Очистка списка сотрудников
+function clearEmpList() {
+    $("#employee").empty();
+}
