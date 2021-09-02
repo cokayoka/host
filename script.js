@@ -117,6 +117,8 @@ $(document).ready(function() {
     organisations.forEach(element => {
         $("#organisation").append('<option value="' + element.name + '">' + element.name + '</option>');
     });
+    $("#organisation option:even").addClass("red");
+    $("#organisation option:odd").addClass("yellow");
 
     //Включение и отключение доступа к списку сотрудников
     $("#organisation").change(function(e) {
@@ -143,14 +145,20 @@ $(document).ready(function() {
 
         employees.forEach(element => {
             if ((organisationId == element.organisationId && checkedPositionsId.length == 0) || (organisationId == element.organisationId && checkedPositionsId.indexOf(element.positionId) != -1)) {
+
                 $("#employee").append('<option class="red" value="' + element.fullName + '">' + element.fullName + '</option>');
             }
 
         });
+
+        $("#employee option:even").addClass("red");
+        $("#employee option:odd").addClass("yellow");
     }
+
 
     //Отрисовка списка должностей
     positions.forEach(element => {
+
         $("#checkboxes").append('<br><input type="checkbox" name="' + element.position + '"><label for="' + element.position + '">' + element.position + '</label>');
     });
 
@@ -164,7 +172,11 @@ $(document).ready(function() {
     $("#addBtn").click(function(e) {
         e.preventDefault();
         let checkedPositionId = checkboxCheck();
-        $("#informationField").append(employee.value + " - " + searchPos(checkedPositionId, $("#organisation").val(), $("#employee").val()) + "(" + $("#organisation").val() + ")");
+        if (checkedPositionId.length == 0) {
+            alert("Выберите хотя бы одну должность");
+            return;
+        }
+        $("#informationField").append('<div>' + employee.value + " - " + searchPos(checkedPositionId, $("#organisation").val(), $("#employee").val()) + "(" + $("#organisation").val() + ")" + '</div>');
 
     });
     //Очистка списка по клику на "очистить"

@@ -2,6 +2,10 @@
     color: red;
 }
 
+.yellow {
+    color: yellow;
+}
+
 .field {
     border: 1px solid gray;
     max-width: 350px;
