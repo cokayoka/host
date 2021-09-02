@@ -163,9 +163,7 @@ $(document).ready(function() {
 
     $("#addBtn").click(function(e) {
         let checkedPositionId = checkboxCheck();
-
-        console.log(checkedPositionId);
-        $("#informationField").append(employee.value + searchPos(checkedPositionId, $("#organisation").val(), $("#employee").val()));
+        $("#informationField").append(employee.value + " - " + searchPos(checkedPositionId, $("#organisation").val(), $("#employee").val()) + "(" + $("#organisation").val() + ")");
         e.preventDefault();
 
     });
@@ -175,12 +173,20 @@ $(document).ready(function() {
 
 function searchPos(posId, orgName, fullName) {
     let orgId = searchOrgId(orgName);
-    let position;
-    console.log(posId);
-    // employees.forEach(element => {
-    //     if()
-    // });
-
+    let positionId;
+    let positon;
+    employees.forEach(element => {
+        if (posId.indexOf(element.positionId) != -1 && orgId == element.organisationId && fullName == element.fullName) {
+            positionId = element.positionId
+        }
+    });
+    positions.forEach(element => {
+        if (element.id == positionId) {
+            position = element.position;
+        }
+    });
+    console.log(position);
+    return position;
 }
 
 //Проверка выделенных чекбоксов
@@ -189,7 +195,6 @@ function checkboxCheck() {
     $("#checkboxes input:checked").each(function(i, element) {
         checkedPositions.push(searchPosId(element.name));
     });
-
     return checkedPositions;
 }
 
