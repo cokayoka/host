@@ -121,7 +121,7 @@ $(document).ready(function() {
     //Включение и отключение доступа к списку сотрудников
     $("#organisation").change(function(e) {
 
-        clearEmpList();
+
         if ($("#organisation").val() == "noSelect") {
             e.preventDefault();
             $("#employee").attr('disabled', 'disabled');
@@ -136,10 +136,13 @@ $(document).ready(function() {
 
     //Отрисовка списка сотрудников
     function drawEmpList() {
-        //Добавить функцию определяющую чекнутые боксы и выводить по боксам при изменении боксов вызывать отрисовку
+        clearEmpList();
         let organisationId = searchOrgId($("#organisation").val());
+        let checkedPositionsId = checkboxCheck();
+
+
         employees.forEach(element => {
-            if (organisationId == element.organisationId) {
+            if ((organisationId == element.organisationId && checkedPositionsId.length == 0) || (organisationId == element.organisationId && checkedPositionsId.indexOf(element.positionId) != -1)) {
                 $("#employee").append('<option class="red" value="' + element.fullName + '">' + element.fullName + '</option>');
             }
 
@@ -155,29 +158,42 @@ $(document).ready(function() {
     //**------------------------------------------------------------------------------------------------- */
     //Изменение состояние checkbox
     $("#checkboxes").change(function(e) {
-        console.log("srabotalo");
-        let posId = searchPosId(e.target.name);
-        console.log(e.target.name);
-        console.log(posId);
-
+        drawEmpList();
     });
 
+    $("#addBtn").click(function(e) {
+        let checkedPositionId = checkboxCheck();
+
+        console.log(checkedPositionId);
+        $("#informationField").append(employee.value + searchPos(checkedPositionId, $("#organisation").val(), $("#employee").val()));
+        e.preventDefault();
+
+    });
 
 
 });
 
-//Поси id организации по ее имени выбранного в списке
-function searchOrgId(name) {
-    let orgId;
-    organisations.forEach(element => {
-        if (element.name == name) {
-            orgId = element.id;
-        }
-    });
-    return orgId;
+function searchPos(posId, orgName, fullName) {
+    let orgId = searchOrgId(orgName);
+    let position;
+    console.log(posId);
+    // employees.forEach(element => {
+    //     if()
+    // });
+
 }
 
-//Посик id должности
+//Проверка выделенных чекбоксов
+function checkboxCheck() {
+    let checkedPositions = [];
+    $("#checkboxes input:checked").each(function(i, element) {
+        checkedPositions.push(searchPosId(element.name));
+    });
+
+    return checkedPositions;
+}
+
+//Поиск id должности
 function searchPosId(position) {
     let posId = undefined;
     positions.forEach(element => {
@@ -188,6 +204,19 @@ function searchPosId(position) {
     });
     return posId;
 }
+
+//Поиск id организации по ее имени выбранного в списке
+function searchOrgId(name) {
+    let orgId;
+    organisations.forEach(element => {
+        if (element.name == name) {
+            orgId = element.id;
+        }
+    });
+    return orgId;
+}
+
+
 //Очистка списка сотрудников
 function clearEmpList() {
     $("#employee").empty();
