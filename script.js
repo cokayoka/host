@@ -120,6 +120,7 @@ $(document).ready(function() {
 
     //Включение и отключение доступа к списку сотрудников
     $("#organisation").change(function(e) {
+
         clearEmpList();
         if ($("#organisation").val() == "noSelect") {
             e.preventDefault();
@@ -135,10 +136,11 @@ $(document).ready(function() {
 
     //Отрисовка списка сотрудников
     function drawEmpList() {
+        //Добавить функцию определяющую чекнутые боксы и выводить по боксам при изменении боксов вызывать отрисовку
         let organisationId = searchOrgId($("#organisation").val());
         employees.forEach(element => {
             if (organisationId == element.organisationId) {
-                $("#employee").append('<option value="' + element.fullName + '">' + element.fullName + '</option>');
+                $("#employee").append('<option class="red" value="' + element.fullName + '">' + element.fullName + '</option>');
             }
 
         });
@@ -146,8 +148,22 @@ $(document).ready(function() {
 
     //Отрисовка списка должностей
     positions.forEach(element => {
-        $("#employee").after('<br><input type="checkbox" name="' + element.position + '"><label for="' + element.position + '">' + element.position + '</label>');
+        $("#checkboxes").append('<br><input type="checkbox" name="' + element.position + '"><label for="' + element.position + '">' + element.position + '</label>');
     });
+
+
+    //**------------------------------------------------------------------------------------------------- */
+    //Изменение состояние checkbox
+    $("#checkboxes").change(function(e) {
+        console.log("srabotalo");
+        let posId = searchPosId(e.target.name);
+        console.log(e.target.name);
+        console.log(posId);
+
+    });
+
+
+
 });
 
 //Поси id организации по ее имени выбранного в списке
@@ -161,6 +177,17 @@ function searchOrgId(name) {
     return orgId;
 }
 
+//Посик id должности
+function searchPosId(position) {
+    let posId = undefined;
+    positions.forEach(element => {
+        if (element.position == position) {
+            posId = element.id;
+        }
+
+    });
+    return posId;
+}
 //Очистка списка сотрудников
 function clearEmpList() {
     $("#employee").empty();
