@@ -155,22 +155,25 @@ $(document).ready(function() {
     });
 
 
-    //**------------------------------------------------------------------------------------------------- */
     //Изменение состояние checkbox
     $("#checkboxes").change(function(e) {
         drawEmpList();
     });
 
+    //Добавление в список по клику на "добавить"
     $("#addBtn").click(function(e) {
+        e.preventDefault();
         let checkedPositionId = checkboxCheck();
         $("#informationField").append(employee.value + " - " + searchPos(checkedPositionId, $("#organisation").val(), $("#employee").val()) + "(" + $("#organisation").val() + ")");
-        e.preventDefault();
 
     });
+    //Очистка списка по клику на "очистить"
+    $("#clrBtn").click(function(e) {
 
-
+        $("#informationField").empty();
+    });
 });
-
+//Функция поиска названия должности
 function searchPos(posId, orgName, fullName) {
     let orgId = searchOrgId(orgName);
     let positionId;
@@ -185,7 +188,6 @@ function searchPos(posId, orgName, fullName) {
             position = element.position;
         }
     });
-    console.log(position);
     return position;
 }
 
