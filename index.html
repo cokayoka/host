@@ -11,26 +11,30 @@
 
 <body>
     <form id="form" action="">
-        Организация
-        <select name="organisation" id="organisation">
+        <label class="label">Организация</label>
+        <select class="select" name="organisation" id="organisation">
 
-        </select> <br><br>Сотрудник
-        <select name="employee" id="employee">
+        </select>
 
-        </select><br>
+        <label class="label">Сотрудник</label>
+        <select class="select" name="employee" id="employee">
+            
+        </select>
         <div id="checkboxes">
 
         </div>
-        <br>
+
         <div class="field" id="informationField">
 
         </div>
-        <button type="button" id="addBtn">
-            Добавить
-        </button>
-        <button type="button" id="clrBtn">
-            Очистить
-        </button>
+        <div class="form__buttons">
+            <button type="button" id="addBtn">
+                Добавить
+            </button>
+            <button type="button" id="clrBtn">
+                Очистить
+            </button>
+        </div>
 
     </form>
     <script src="jquery.js"></script>

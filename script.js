@@ -25,6 +25,8 @@ let positions = [{
         id: 30,
         position: "Менеджер",
     },
+
+
 ]
 
 let employees = [{
@@ -117,8 +119,8 @@ $(document).ready(function() {
     organisations.forEach(element => {
         $("#organisation").append('<option value="' + element.name + '">' + element.name + '</option>');
     });
-    $("#organisation option:even").addClass("red");
-    $("#organisation option:odd").addClass("yellow");
+    $("#organisation option:even").addClass("even");
+    $("#organisation option:odd").addClass("odd");
 
     //Включение и отключение доступа к списку сотрудников
     $("#organisation").change(function(e) {
@@ -151,15 +153,15 @@ $(document).ready(function() {
 
         });
 
-        $("#employee option:even").addClass("red");
-        $("#employee option:odd").addClass("yellow");
+        $("#employee option:even").addClass("even");
+        $("#employee option:odd").addClass("odd");
     }
 
 
     //Отрисовка списка должностей
     positions.forEach(element => {
 
-        $("#checkboxes").append('<br><input type="checkbox" name="' + element.position + '"><label for="' + element.position + '">' + element.position + '</label>');
+        $("#checkboxes").append('<div class="checkboxWithLabel"><input type="checkbox" name="' + element.position + '"><label for="' + element.position + '">' + element.position + '</label></div>');
     });
 
 
